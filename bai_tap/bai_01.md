@@ -22,9 +22,4 @@ Tôi muốn học về phần mềm mã nguồn mở vì đây là một lĩnh v
 
 
 
-## Giấy phép
 
-Mã nguồn trong kho này được phát hành
-theo [Giấy phép MIT](LICENSE).
-
-SPDX-License-Identifier: MIT
