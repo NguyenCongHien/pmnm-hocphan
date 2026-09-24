@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <!-- Khai báo bộ mã UTF-8 để hiển thị tiếng Việt -->
+    <meta charset="UTF-8">
+
+    <!-- Tiêu đề hiển thị trên tab trình duyệt -->
+    <title>Máy tính Flask</title>
+
+    <style>
+        /* ================================
+           CÀI ĐẶT CHUNG CHO TRANG
+           ================================ */
+
+        /* Áp dụng cho toàn bộ phần tử */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Giao diện toàn bộ trang */
+        body {
+            margin: 0;
+            padding: 0;
+
+            /* Font chữ */
+            font-family: Arial, sans-serif;
+
+            /* Màu nền */
+            background: linear-gradient(135deg, #667eea, #764ba2);
+
+            /* Căn giữa hộp tính toán */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* ================================
+           HỘP MÁY TÍNH
+           ================================ */
+
+        .calculator {
+            width: 400px;
+
+            /* Màu nền hộp */
+            background: white;
+
+            /* Khoảng cách bên trong */
+            padding: 35px;
+
+            /* Bo góc */
+            border-radius: 15px;
+
+            /* Đổ bóng */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+
+        /* Tiêu đề */
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+
+            /* Màu chữ */
+            color: #333;
+        }
+
+
+        /* ================================
+           LABEL
+           ================================ */
+
+        label {
+            display: block;
+
+            /* Khoảng cách phía dưới */
+            margin-bottom: 8px;
+
+            /* Chữ đậm */
+            font-weight: bold;
+
+            color: #555;
+        }
+
+
+        /* ================================
+           INPUT VÀ SELECT
+           ================================ */
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 12px;
+
+            /* Kích thước chữ */
+            font-size: 16px;
+
+            /* Viền */
+            border: 1px solid #ccc;
+
+            /* Bo góc */
+            border-radius: 8px;
+
+            /* Khoảng cách phía dưới */
+            margin-bottom: 20px;
+
+            /* Hiệu ứng chuyển động */
+            transition: 0.3s;
+        }
+
+
+        /* Khi click vào input/select */
+        input:focus,
+        select:focus {
+            outline: none;
+
+            border-color: #667eea;
+
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
+        }
+
+
+        /* ================================
+           NÚT TÍNH
+           ================================ */
+
+        button {
+            width: 100%;
+
+            padding: 13px;
+
+            /* Cỡ chữ */
+            font-size: 17px;
+
+            /* Chữ đậm */
+            font-weight: bold;
+
+            /* Màu nền */
+            background: #667eea;
+
+            /* Màu chữ */
+            color: white;
+
+            /* Bỏ viền */
+            border: none;
+
+            /* Bo góc */
+            border-radius: 8px;
+
+            /* Con trỏ chuột */
+            cursor: pointer;
+
+            /* Hiệu ứng */
+            transition: 0.3s;
+        }
+
+
+        /* Khi đưa chuột vào nút */
+        button:hover {
+            background: #5568d9;
+
+            /* Nút hơi phóng to */
+            transform: translateY(-2px);
+        }
+
+
+        /* ================================
+           KẾT QUẢ
+           ================================ */
+
+        .result {
+            margin-top: 25px;
+
+            padding: 15px;
+
+            text-align: center;
+
+            background: #f0f4ff;
+
+            border-radius: 8px;
+
+            color: #333;
+        }
+
+
+        .result span {
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: #667eea;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!--
+        Đây là hộp chứa toàn bộ giao diện máy tính.
+        class="calculator" dùng để CSS thiết kế hộp.
+    -->
+    <div class="calculator">
+
+        <!-- Tiêu đề -->
+        <h2>🧮 Máy tính</h2>
+
+
+        <!-- Form gửi dữ liệu đến Flask -->
+        <form method="POST">
+
+
+            <!-- SỐ THỨ NHẤT -->
+
+            <label>Số thứ nhất</label>
+
+            <input
+                type="number"
+                name="so1"
+                step="any"
+                placeholder="Nhập số thứ nhất..."
+                required
+            >
+
+
+            <!-- SỐ THỨ HAI -->
+
+            <label>Số thứ hai</label>
+
+            <input
+                type="number"
+                name="so2"
+                step="any"
+                placeholder="Nhập số thứ hai..."
+                required
+            >
+
+
+            <!-- PHÉP TÍNH -->
+
+            <label>Chọn phép tính</label>
+
+            <select name="phep_tinh">
+
+                <!--
+                    value="tong" là giá trị gửi về Flask.
+                    "Tổng" là nội dung người dùng nhìn thấy.
+                -->
+                <option value="tong">➕ Tổng</option>
+
+                <option value="hieu">➖ Hiệu</option>
+
+                <option value="tich">✖️ Tích</option>
+
+                <option value="thuong">➗ Thương</option>
+
+            </select>
+
+
+            <!-- NÚT TÍNH -->
+
+            <button type="submit">
+                Tính kết quả
+            </button>
+
+        </form>
+
+
+        <!--
+            Jinja2 kiểm tra xem đã có kết quả chưa.
+
+            Nếu ket_qua khác None thì hiển thị.
+        -->
+        {% if ket_qua is not none %}
+
+            <div class="result">
+
+                <strong>Kết quả:</strong>
+
+                <br><br>
+
+                <!-- Hiển thị kết quả từ Flask -->
+                <span>{{ ket_qua }}</span>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html>
