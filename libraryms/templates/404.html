@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ book["title"] }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ book["title"] }}</h1>
+
+<p>ID: {{ book["id"] }}</p>
+
+<p>Tác giả: {{ book["author"] }}</p>
+
+<p>Năm xuất bản: {{ book["year"] }}</p>
+
+<p>Thể loại: {{ book["category"] }}</p>
+
+<p>
+    Tình trạng:
+    {% if book["available"] %}
+        Có sẵn
+    {% else %}
+        Đang được mượn
+    {% endif %}
+</p>
+
+<a href="{{ url_for('books') }}">
+    ← Quay lại danh sách
+</a>
+
+{% endblock %}

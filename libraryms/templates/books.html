@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+Danh sách sách - LibraryMS
+{% endblock %}
+
+{% block content %}
+
+<h1>Danh sách sách</h1>
+
+<h3>Lọc theo thể loại</h3>
+
+<a href="{{ url_for('books') }}">Tất cả</a>
+
+{% for category in categories %}
+    |
+    <a href="{{ url_for('books', category=category) }}">
+        {{ category }}
+    </a>
+{% endfor %}
+
+<hr>
+
+<table border="1" cellpadding="8">
+
+    <tr>
+        <th>ID</th>
+        <th>Tên sách</th>
+        <th>Tác giả</th>
+        <th>Năm</th>
+        <th>Thể loại</th>
+        <th>Tình trạng</th>
+    </tr>
+
+    {% for book in books %}
+
+    <tr>
+        <td>{{ book["id"] }}</td>
+
+        <td>
+            <a href="{{ url_for('book_detail', book_id=book['id']) }}">
+                {{ book["title"] }}
+            </a>
+        </td>
+
+        <td>{{ book["author"] }}</td>
+
+        <td>{{ book["year"] }}</td>
+
+        <td>{{ book["category"] }}</td>
+
+        <td>
+            {% if book["available"] %}
+                Có sẵn
+            {% else %}
+                Đang được mượn
+            {% endif %}
+        </td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}
