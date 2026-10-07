@@ -1,5 +1,10 @@
-### 1. Kết quả flask --app sodiem routes , phải có 10
-dòng (kể cả static )
+# Sổ điểm sinh viên
+
+## 1. Kết quả `flask --app sodiem routes`
+
+Kết quả có đúng 10 dòng, bao gồm cả route `static`:
+
+```text
 Endpoint            Methods           Rule
 ------------------  ----------------  ------------------------------------
 export_csv          GET               /students/<mssv>/export
@@ -11,12 +16,10 @@ student_api_detail  GET               /api/students/<mssv>
 student_api_list    GET               /api/students
 student_detail      GET               /students/<mssv>
 student_list        GET               /students
-student_shortcut    GET               /sv/<mssv>
+student_shortcut   GET               /sv/<mssv>
+```
 
-### 2. Dòng trạng thái và body (hoặc header quan trọng)
-của từng lệnh curl
-
-Kết quả kiểm thử bằng curl
+## 2. Kết quả kiểm thử bằng curl
 
 ### 2.1. Redirect URL rút gọn
 
@@ -78,13 +81,14 @@ MMT,9.0
 **Lệnh:**
 
 ```bash
-curl.exe "$B/api/students?lop=k47a&min_avg=7"
+curl.exe -i "$B/api/students?lop=k47a&min_avg=7"
 ```
 
 **Kết quả:**
 
 ```text
 HTTP/1.1 200 OK
+Content-Type: application/json
 ```
 
 **Body:**
@@ -108,7 +112,7 @@ HTTP/1.1 200 OK
 
 ---
 
-### 2.4. Tham số min_avg không hợp lệ
+### 2.4. Tham số `min_avg` không hợp lệ
 
 **Lệnh:**
 
@@ -194,13 +198,14 @@ Location: /api/students/23T1020005/scores/WEB
 **Lệnh:**
 
 ```bash
-curl.exe -X PUT "$S/WEB?score=7.5"
+curl.exe -i -X PUT "$S/WEB?score=7.5"
 ```
 
 **Kết quả:**
 
 ```text
 HTTP/1.1 200 OK
+Content-Type: application/json
 ```
 
 **Body:**
@@ -301,59 +306,15 @@ HTTP/1.1 405 METHOD NOT ALLOWED
 Content-Type: text/html; charset=utf-8
 ```
 
-**Body:**
+**Body quan trọng:**
 
 ```html
 <!doctype html>
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Phương thức không được hỗ trợ - Sổ điểm</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 0 20px;
-            line-height: 1.6;
-        }
-
-        nav {
-            margin-bottom: 25px;
-            padding: 12px;
-            background: #f2f2f2;
-        }
-
-        nav a {
-            margin-right: 20px;
-            text-decoration: none;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background: #eee;
-        }
-
-        .filter {
-            margin: 15px 0;
-        }
-    </style>
 </head>
-
 <body>
 
 <nav>
@@ -362,21 +323,22 @@ Content-Type: text/html; charset=utf-8
     <a href="/search">Tìm kiếm sinh viên</a>
 </nav>
 
+<h1>405 - Phương thức không được hỗ trợ</h1>
 
-    <h1>405 - Phương thức không được hỗ trợ</h1>
-
-    <p>The method is not allowed for the requested URL.</p>
-
+<p>The method is not allowed for the requested URL.</p>
 
 </body>
 </html>
 ```
+
 ## 3. Trả lời ngắn
 
-### Câu 1: Vì sao Câu 4 dùng 301 còn Câu 8 trả 201 kèm Location?
+### Câu 1: Vì sao Câu 4 dùng 301 còn Câu 8 trả 201 kèm `Location`?
 
-* **Câu 4 dùng HTTP 301** vì `/sv/<mssv>` chỉ là URL rút gọn và được chuyển hướng vĩnh viễn sang URL chính `/students/<mssv>`. Mã 301 cho biết tài nguyên đã được chuyển sang địa chỉ mới một cách lâu dài.
-* **Câu 8 trả HTTP 201 Created** vì thao tác PUT đã tạo một điểm mới cho sinh viên. Header **Location** cho biết URL của tài nguyên điểm vừa được tạo: `/api/students/23T1020005/scores/WEB`.
+* **Câu 4 dùng HTTP 301** vì `/sv/<mssv>` là URL rút gọn và được chuyển hướng vĩnh viễn sang URL chính `/students/<mssv>`. Mã 301 cho biết tài nguyên đã được chuyển sang địa chỉ mới một cách lâu dài.
+
+* **Câu 8 trả HTTP 201 Created** vì thao tác PUT đã tạo một điểm mới cho sinh viên. Header `Location` cho biết URL của tài nguyên điểm vừa được tạo: `/api/students/23T1020005/scores/WEB`.
+
 * Nếu điểm đã tồn tại và chỉ được cập nhật thì API trả **200 OK**.
 
 ### Câu 2: Thêm điểm cho `23T1020005` rồi khởi động lại server, điểm đó còn không? Vì sao?
