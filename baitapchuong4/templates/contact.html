@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Liên hệ - {{ shop.name }}{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Liên hệ với chúng tôi</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">{{ shop.name }}</h4>
+
+        <p><strong>Địa chỉ:</strong> {{ shop.address }}</p>
+        <p><strong>Điện thoại:</strong> {{ shop.phone }}</p>
+
+        <p>
+            <strong>Giờ mở cửa:</strong>
+            {{ shop.open }}:00 - {{ shop.close }}:00
+        </p>
+
+        {% if dang_mo %}
+            <p class="text-success">Quán đang mở cửa.</p>
+        {% else %}
+            <p class="text-danger">Quán đã đóng cửa.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

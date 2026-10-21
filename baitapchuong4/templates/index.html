@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block title %}Trang chủ - {{ shop.name }}{% endblock %}
+
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold">{{ shop.name }}</h1>
+
+        <p class="fs-5">Địa chỉ: {{ shop.address }}</p>
+        <p>Điện thoại: {{ shop.phone }}</p>
+
+        <p>
+            Giờ mở cửa: {{ shop.open }}:00 - {{ shop.close }}:00
+        </p>
+
+        {% if dang_mo %}
+            <span class="badge bg-success">Đang mở cửa</span>
+        {% else %}
+            <span class="badge bg-danger">Đã đóng cửa</span>
+        {% endif %}
+
+        <p class="mt-3">Giờ đang kiểm tra: {{ gio }}:00</p>
+
+        <a href="{{ url_for('menu', gio=gio) }}"
+           class="btn btn-primary">
+            Xem thực đơn
+        </a>
+
+        <a href="{{ url_for('contact', gio=gio) }}"
+           class="btn btn-outline-dark">
+            Liên hệ
+        </a>
+    </div>
+</div>
+
+<h2 class="mb-3">Chương trình khuyến mãi</h2>
+
+<ul class="list-group mb-4">
+    {% for km in promotions %}
+        <li class="list-group-item">{{ km }}</li>
+    {% else %}
+        <li class="list-group-item">
+            Hiện chưa có chương trình khuyến mãi.
+        </li>
+    {% endfor %}
+</ul>
+
+<div class="alert alert-info">
+    Chào mừng bạn đến với {{ shop.name }}!
+</div>
+
+{% endblock %}

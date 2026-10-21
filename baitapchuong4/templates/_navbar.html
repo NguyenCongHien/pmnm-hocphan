@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand"
+           href="{{ url_for('home', gio=gio) }}">
+            {{ shop.name }}
+        </a>
+
+        <div class="navbar-nav">
+            <a class="nav-link"
+               href="{{ url_for('home', gio=gio) }}">
+                Trang chủ
+            </a>
+
+            <a class="nav-link"
+               href="{{ url_for('menu', gio=gio) }}">
+                Thực đơn
+            </a>
+
+            <a class="nav-link"
+               href="{{ url_for('contact', gio=gio) }}">
+                Liên hệ
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% from "_macros.html" import item_card, pagination %}
+
+{% block title %}Thực đơn - {{ shop.name }}{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <style>
+        .card-title {
+            color: brown;
+        }
+
+        .card img {
+            object-fit: cover;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-3">Thực đơn {{ shop.name }}</h1>
+
+<p>
+    Trang {{ page }} / {{ pages }}
+    — Có {{ menu | length }} món trên trang này.
+</p>
+
+{% if menu %}
+<div class="row g-4">
+    {% for item in menu %}
+        {{ item_card(item) }}
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-warning">
+    Chưa có món nào trong thực đơn.
+</div>
+{% endif %}
+
+{{ pagination(page, pages, 'menu') }}
+
+<a href="{{ url_for('home', gio=gio) }}"
+   class="btn btn-secondary mt-2">
+    Quay về trang chủ
+</a>
+
+{% endblock %}
