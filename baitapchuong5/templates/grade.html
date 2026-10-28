@@ -1,0 +1,116 @@
+
+{% extends "base.html" %}
+
+{% block title %}Tính điểm học phần{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body p-4 p-md-5">
+
+        <h2 class="text-center text-primary fw-bold mb-2">
+            Tính điểm học phần
+        </h2>
+
+        <p class="text-center text-secondary mb-4">
+            Nhập điểm chuyên cần, giữa kỳ và cuối kỳ.
+        </p>
+
+        <!-- Form gửi dữ liệu bằng POST -->
+        <form method="POST" action="{{ url_for('grade') }}">
+
+            <!-- Điểm chuyên cần -->
+            <div class="mb-3">
+                <label for="cc" class="form-label fw-semibold">
+                    Chuyên cần (CC) - 10%
+                </label>
+
+                <input
+                    type="text"
+                    id="cc"
+                    name="cc"
+                    class="form-control {% if error_cc %}is-invalid{% endif %}"
+                    value="{{ cc }}"
+                    placeholder="Nhập điểm từ 0 đến 10"
+                >
+
+                {% if error_cc %}
+                    <div class="invalid-feedback">
+                        {{ error_cc }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Điểm giữa kỳ -->
+            <div class="mb-3">
+                <label for="gk" class="form-label fw-semibold">
+                    Giữa kỳ (GK) - 30%
+                </label>
+
+                <input
+                    type="text"
+                    id="gk"
+                    name="gk"
+                    class="form-control {% if error_gk %}is-invalid{% endif %}"
+                    value="{{ gk }}"
+                    placeholder="Nhập điểm từ 0 đến 10"
+                >
+
+                {% if error_gk %}
+                    <div class="invalid-feedback">
+                        {{ error_gk }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Điểm cuối kỳ -->
+            <div class="mb-4">
+                <label for="ck" class="form-label fw-semibold">
+                    Cuối kỳ (CK) - 60%
+                </label>
+
+                <input
+                    type="text"
+                    id="ck"
+                    name="ck"
+                    class="form-control {% if error_ck %}is-invalid{% endif %}"
+                    value="{{ ck }}"
+                    placeholder="Nhập điểm từ 0 đến 10"
+                >
+
+                {% if error_ck %}
+                    <div class="invalid-feedback">
+                        {{ error_ck }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Tính điểm
+            </button>
+
+            <a href="{{ url_for('grade') }}"
+               class="btn btn-outline-secondary w-100 mt-2">
+                Làm mới
+            </a>
+        </form>
+
+        <!-- Chỉ hiện kết quả khi tính được điểm -->
+        {% if diem_hp is not none %}
+            <div class="alert alert-success mt-4 mb-0">
+                <h5 class="fw-bold">Kết quả học phần</h5>
+
+                <p class="mb-1">
+                    Điểm học phần:
+                    <strong>{{ "%.1f"|format(diem_hp) }}</strong>
+                </p>
+
+                <p class="mb-0">
+                    Điểm chữ:
+                    <strong>{{ diem_chu }}</strong>
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

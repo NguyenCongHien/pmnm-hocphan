@@ -1,0 +1,117 @@
+
+{% extends "base.html" %}
+
+{% block title %}Máy tính cơ bản{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body p-4 p-md-5">
+        <h2 class="text-center text-primary fw-bold mb-2">
+            Máy tính cơ bản
+        </h2>
+
+        <p class="text-center text-secondary mb-4">
+            Nhập hai số và chọn phép toán cần thực hiện.
+        </p>
+
+        <!-- Form gửi dữ liệu bằng POST về chính URL hiện tại -->
+        <form method="POST" action="{{ url_for('calculator') }}">
+
+            <!-- Số thứ nhất -->
+            <div class="mb-3">
+                <label for="a" class="form-label fw-semibold">
+                    Số thứ nhất (a)
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control {% if error_a %}is-invalid{% endif %}"
+                    id="a"
+                    name="a"
+                    value="{{ a }}"
+                    placeholder="Ví dụ: 2,5"
+                >
+
+                {% if error_a %}
+                    <div class="invalid-feedback">
+                        {{ error_a }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Phép toán -->
+            <div class="mb-3">
+                <label for="op" class="form-label fw-semibold">
+                    Phép toán
+                </label>
+
+                <select
+                    class="form-select {% if error_op %}is-invalid{% endif %}"
+                    id="op"
+                    name="op"
+                >
+                    <option value="+" {% if op == "+" %}selected{% endif %}>
+                        Cộng (+)
+                    </option>
+
+                    <option value="-" {% if op == "-" %}selected{% endif %}>
+                        Trừ (-)
+                    </option>
+
+                    <option value="*" {% if op == "*" %}selected{% endif %}>
+                        Nhân (*)
+                    </option>
+
+                    <option value="/" {% if op == "/" %}selected{% endif %}>
+                        Chia (/)
+                    </option>
+                </select>
+
+                {% if error_op %}
+                    <div class="invalid-feedback">
+                        {{ error_op }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Số thứ hai -->
+            <div class="mb-4">
+                <label for="b" class="form-label fw-semibold">
+                    Số thứ hai (b)
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control {% if error_b %}is-invalid{% endif %}"
+                    id="b"
+                    name="b"
+                    value="{{ b }}"
+                    placeholder="Ví dụ: 4"
+                >
+
+                {% if error_b %}
+                    <div class="invalid-feedback">
+                        {{ error_b }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Tính kết quả
+            </button>
+        </form>
+
+        <!-- Hiển thị kết quả -->
+        {% if result is not none %}
+            <div class="alert alert-success mt-4 mb-0">
+                <h5 class="fw-bold">Kết quả</h5>
+
+                <p class="mb-0">
+                    {{ a }} {{ op }} {{ b }} =
+                    {{ result }}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

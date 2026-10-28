@@ -1,0 +1,139 @@
+
+{% extends "base.html" %}
+
+{% block title %}Tính chỉ số BMI{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+
+        <div class="page-icon">
+            <i class="bi bi-heart-pulse-fill"></i>
+        </div>
+
+        <h2 class="text-center fw-bold mb-2">
+            Tính chỉ số BMI
+        </h2>
+
+        <p class="text-center text-secondary mb-4">
+            Kiểm tra chỉ số khối cơ thể từ chiều cao và cân nặng.
+        </p>
+
+        <form method="POST" action="{{ url_for('bmi') }}">
+
+            <!-- Chiều cao -->
+            <div class="mb-4">
+                <label for="chieu_cao" class="form-label fw-semibold">
+                    <i class="bi bi-rulers me-2 text-primary"></i>
+                    Chiều cao
+                </label>
+
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="chieu_cao"
+                        name="chieu_cao"
+                        class="form-control {% if error_chieu_cao %}is-invalid{% endif %}"
+                        value="{{ chieu_cao }}"
+                        placeholder="Nhập chiều cao, ví dụ 170"
+                    >
+                    <span class="input-group-text bg-light">cm</span>
+
+                    {% if error_chieu_cao %}
+                        <div class="invalid-feedback">
+                            {{ error_chieu_cao }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <small class="text-secondary">
+                    Giá trị hợp lệ từ 50 đến 250 cm.
+                </small>
+            </div>
+
+            <!-- Cân nặng -->
+            <div class="mb-4">
+                <label for="can_nang" class="form-label fw-semibold">
+                    <i class="bi bi-speedometer2 me-2 text-primary"></i>
+                    Cân nặng
+                </label>
+
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="can_nang"
+                        name="can_nang"
+                        class="form-control {% if error_can_nang %}is-invalid{% endif %}"
+                        value="{{ can_nang }}"
+                        placeholder="Nhập cân nặng, ví dụ 65,5"
+                    >
+                    <span class="input-group-text bg-light">kg</span>
+
+                    {% if error_can_nang %}
+                        <div class="invalid-feedback">
+                            {{ error_can_nang }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <small class="text-secondary">
+                    Giá trị hợp lệ từ 10 đến 300 kg.
+                </small>
+            </div>
+
+            <!-- Nút chức năng -->
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-calculator me-2"></i>
+                Tính chỉ số BMI
+            </button>
+
+            <a href="{{ url_for('bmi') }}"
+               class="btn btn-outline-secondary w-100 mt-2">
+                <i class="bi bi-arrow-counterclockwise me-2"></i>
+                Làm mới
+            </a>
+        </form>
+
+        <!-- Kết quả -->
+        {% if chi_so_bmi is not none %}
+            <div class="alert alert-{{ mau_ket_qua }} result-box mt-4 mb-0">
+                <div class="text-center">
+                    <div class="small fw-semibold text-uppercase mb-2">
+                        Chỉ số BMI của bạn
+                    </div>
+
+                    <div class="display-4 fw-bold">
+                        {{ "%.1f"|format(chi_so_bmi) }}
+                    </div>
+
+                    <span class="badge rounded-pill text-bg-{{ mau_ket_qua }} fs-6 mt-2">
+                        {{ phan_loai }}
+                    </span>
+                </div>
+
+                <hr>
+
+                <div class="d-flex align-items-start gap-3">
+                    <i class="bi bi-info-circle-fill fs-4"></i>
+
+                    <div>
+                        <div class="fw-bold mb-1">
+                            Khoảng cân nặng tham khảo
+                        </div>
+
+                        <div>
+                            {{ "%.1f"|format(can_nang_min) }}
+                            – {{ "%.1f"|format(can_nang_max) }} kg
+                        </div>
+
+                        <small>
+                            Tương ứng BMI từ 18,5 đến 22,9.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
