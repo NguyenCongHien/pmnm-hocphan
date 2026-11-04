@@ -1,0 +1,132 @@
+
+{% extends "base.html" %}
+
+{% block title %}Kết quả truy vấn sinh viên{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4 text-center">
+    KẾT QUẢ TRUY VẤN SINH VIÊN
+</h2>
+
+{% if not has_data %}
+
+    <div class="alert alert-warning">
+        Chưa có dữ liệu, hãy mở /them-mau trước.
+    </div>
+
+{% else %}
+
+    <!-- 1. Kết quả tìm theo ID -->
+    <div class="card shadow-sm p-3 mb-4">
+        <h5 class="section-title">1. Tìm sinh viên theo ID</h5>
+
+        <p>
+            <strong>get(3):</strong>
+            {% if student_3 %}
+                {{ student_3.name }} - {{ student_3.mssv }}
+            {% else %}
+                Không tìm thấy sinh viên.
+            {% endif %}
+        </p>
+
+        <p class="mb-0">
+            <strong>get(99):</strong>
+            {% if student_99 %}
+                {{ student_99.name }} - {{ student_99.mssv }}
+            {% else %}
+                None (Không tìm thấy sinh viên ID = 99)
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- 2. Danh sách tất cả sinh viên -->
+    <div class="card shadow-sm p-3 mb-4">
+        <h5 class="section-title">
+            2. Tất cả sinh viên ({{ everyone|length }} sinh viên)
+        </h5>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>MSSV</th>
+                        <th>Họ tên</th>
+                        <th>GPA</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for sv in everyone %}
+                    <tr>
+                        <td>{{ sv.id }}</td>
+                        <td>{{ sv.mssv }}</td>
+                        <td>{{ sv.name }}</td>
+                        <td>{{ "%.2f"|format(sv.gpa) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. Sinh viên có GPA >= 8 -->
+    <div class="card shadow-sm p-3 mb-4">
+        <h5 class="section-title">
+            3. Sinh viên có GPA từ 8 trở lên
+        </h5>
+
+        <ul>
+            {% for sv in good %}
+            <li>
+                {{ sv.name }} - {{ sv.mssv }} - GPA: {{ sv.gpa }}
+            </li>
+            {% else %}
+            <li>Không có sinh viên nào đạt GPA từ 8.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- 4. Tìm sinh viên theo MSSV -->
+    <div class="card shadow-sm p-3 mb-4">
+        <h5 class="section-title">
+            4. Tìm sinh viên theo MSSV
+        </h5>
+
+        {% if binh %}
+            <p>
+                {{ binh.name }} - {{ binh.mssv }} -
+                GPA: {{ binh.gpa }}
+            </p>
+        {% else %}
+            <p>Không tìm thấy sinh viên có MSSV 23T1020002.</p>
+        {% endif %}
+    </div>
+
+    <!-- 5. Thống kê -->
+    <div class="card shadow-sm p-3 mb-4">
+        <h5 class="section-title">5. Thống kê sinh viên</h5>
+
+        <p>
+            <strong>Tổng số sinh viên:</strong>
+            {{ count }}
+        </p>
+
+        <p class="mb-0">
+            <strong>Điểm GPA trung bình:</strong>
+            {{ "%.2f"|format(avg) }}
+        </p>
+    </div>
+
+{% endif %}
+
+<a href="/them-mau" class="btn btn-success">
+    Thêm dữ liệu mẫu
+</a>
+
+<a href="/thu-truy-van" class="btn btn-primary">
+    Thực hiện truy vấn
+</a>
+
+{% endblock %}
