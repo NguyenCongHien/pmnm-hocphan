@@ -1,32 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}
-{{ book["title"] }}
-{% endblock %}
+{% block title %}404 - Không tìm thấy trang{% endblock %}
 
 {% block content %}
+    <h1>404 - Không tìm thấy trang!</h1>
 
-<h1>{{ book["title"] }}</h1>
+    <p>Xin lỗi, trang bạn đang tìm kiếm không tồn tại.</p>
 
-<p>ID: {{ book["id"] }}</p>
-
-<p>Tác giả: {{ book["author"] }}</p>
-
-<p>Năm xuất bản: {{ book["year"] }}</p>
-
-<p>Thể loại: {{ book["category"] }}</p>
-
-<p>
-    Tình trạng:
-    {% if book["available"] %}
-        Có sẵn
-    {% else %}
-        Đang được mượn
-    {% endif %}
-</p>
-
-<a href="{{ url_for('books') }}">
-    ← Quay lại danh sách
-</a>
-
+    <a href="{{ url_for('index') }}">Quay về trang chủ</a>
 {% endblock %}
