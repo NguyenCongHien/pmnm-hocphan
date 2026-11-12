@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block title %}Thêm danh mục{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Thêm danh mục sách</h2>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Tên danh mục</label>
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       placeholder="Nhập tên danh mục"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mô tả</label>
+                <textarea name="description"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Nhập mô tả danh mục"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Lưu danh mục
+            </button>
+
+            <a href="{{ url_for('categories') }}" class="btn btn-secondary">
+                Quay lại
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+
+{% extends "base.html" %}
+
+{% block title %}Thêm sách{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Thêm sách mới</h2>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Tên sách</label>
+                <input type="text"
+                       name="title"
+                       class="form-control"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tác giả</label>
+                <input type="text"
+                       name="author"
+                       class="form-control"
+                       required>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Giá sách</label>
+                    <input type="number"
+                           name="price"
+                           class="form-control"
+                           min="0"
+                           step="1000"
+                           value="0"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Số lượng</label>
+                    <input type="number"
+                           name="quantity"
+                           class="form-control"
+                           min="0"
+                           value="0"
+                           required>
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Danh mục</label>
+
+                <select name="category_id" class="form-select" required>
+                    <option value="">-- Chọn danh mục --</option>
+
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">
+                        {{ category.name }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mô tả</label>
+                <textarea name="description"
+                          class="form-control"
+                          rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Lưu sách
+            </button>
+
+            <a href="{{ url_for('books') }}" class="btn btn-secondary">
+                Quay lại
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
