@@ -1,0 +1,99 @@
+
+{% extends "base.html" %}
+
+{% block title %}Đặt hàng thành công{% endblock %}
+
+{% block content %}
+
+<div class="card border-0 shadow-sm mx-auto" style="max-width: 750px;">
+    <div class="card-body p-4">
+
+        <div class="text-center mb-4">
+            <div class="text-success display-3">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+
+            <h2 class="text-success fw-bold">
+                Đặt hàng thành công!
+            </h2>
+
+            <p class="text-muted">
+                Cảm ơn bạn đã mua sách tại Nhà sách Sông Hương.
+            </p>
+        </div>
+
+        <hr>
+
+        <h5 class="fw-bold">Thông tin đơn hàng #{{ order.id }}</h5>
+
+        <p><strong>Khách hàng:</strong> {{ order.customer.full_name }}</p>
+        <p><strong>Số điện thoại:</strong> {{ order.customer.phone }}</p>
+        <p><strong>Địa chỉ:</strong> {{ order.customer.address }}</p>
+        <p><strong>Ngày đặt:</strong> {{ order.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+        <p><strong>Trạng thái:</strong>
+            <span class="badge bg-warning text-dark">{{ order.status }}</span>
+        </p>
+
+        <p>
+            <strong>Thanh toán:</strong>
+            {% if order.payment_method == "COD" %}
+                Tiền mặt khi nhận hàng
+            {% else %}
+                Chuyển khoản
+            {% endif %}
+        </p>
+
+        {% if order.note %}
+            <p><strong>Ghi chú:</strong> {{ order.note }}</p>
+        {% endif %}
+
+        <hr>
+
+        <h5 class="fw-bold mb-3">Chi tiết đơn hàng</h5>
+
+        {% for item in order.items %}
+            <div class="d-flex justify-content-between border-bottom py-2">
+                <div>
+                    {{ item.book.title }}
+                    <small class="text-muted">× {{ item.quantity }}</small>
+                </div>
+
+                <strong>{{ (item.unit_price * item.quantity)|vnd }}</strong>
+            </div>
+        {% endfor %}
+
+        <div class="d-flex justify-content-between mt-3">
+            <span>Tạm tính</span>
+            <strong>{{ order.subtotal|vnd }}</strong>
+        </div>
+
+        <div class="d-flex justify-content-between mt-2">
+            <span>Phí giao hàng</span>
+            <strong>
+                {% if order.shipping_fee == 0 %}
+                    Miễn phí
+                {% else %}
+                    {{ order.shipping_fee|vnd }}
+                {% endif %}
+            </strong>
+        </div>
+
+        <hr>
+
+        <div class="d-flex justify-content-between">
+            <strong>Tổng thanh toán</strong>
+            <h4 class="text-danger fw-bold">
+                {{ order.total|vnd }}
+            </h4>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('books') }}" class="btn btn-primary">
+                Tiếp tục mua sách
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

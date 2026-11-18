@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Sách - Nhà sách Sông Hương{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-3 flex-wrap gap-2"><div><h2 class="mb-1">Sách</h2><p class="text-muted mb-0">Khám phá những cuốn sách tại Nhà sách Sông Hương</p></div></div>
+<form method="GET" action="{{ url_for('books') }}" class="row g-2 mb-4 store-search">
+ <div class="col-md-7"><input type="text" name="q" class="form-control" placeholder="Tìm tên sách, tác giả..." value="{{ keyword }}"></div>
+ <div class="col-md-3"><select name="category" class="form-select"><option value="">Mọi danh mục</option>{% for category in categories %}<option value="{{ category.id }}" {% if selected_category == category.id|string %}selected{% endif %}>{{ category.name }}</option>{% endfor %}</select></div>
+ <div class="col-md-2 d-grid"><button class="btn btn-primary" type="submit">Lọc</button></div>
+</form>
+{% if books %}<div class="row g-3">{% for book in books %}<div class="col-6 col-md-4 col-lg-4"><article class="card book-card h-100">
+ <a href="{{ url_for('book_detail', book_id=book.id) }}" class="text-decoration-none">{% if book.cover_image %}<img src="{{ url_for('static', filename='uploads/' ~ book.cover_image) }}" class="book-cover" alt="{{ book.title }}">{% else %}<div class="book-placeholder">Ảnh bìa</div>{% endif %}</a>
+ <div class="card-body d-flex flex-column"><h3 class="card-title"><a href="{{ url_for('book_detail', book_id=book.id) }}" class="text-decoration-none text-dark">{{ book.title }}</a></h3><div class="book-price">{{ book.price|vnd }}</div><div class="stock mb-2">{% if book.quantity > 0 %}Còn {{ book.quantity }}{% else %}<span class="text-danger">Hết hàng</span>{% endif %}</div><div class="mt-auto">{% if book.quantity > 0 %}<form method="POST" action="{{ url_for('add_to_cart', book_id=book.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="quantity" value="1"><button class="btn btn-primary" type="submit">+ Thêm vào giỏ</button></form>{% else %}<button class="btn btn-secondary w-100" disabled>Hết hàng</button>{% endif %}</div></div></article></div>{% endfor %}</div>{% else %}<div class="card text-center p-5"><h5>Không tìm thấy sách</h5><p class="text-muted mb-0">Thử thay đổi từ khóa hoặc danh mục.</p></div>{% endif %}
+{% endblock %}

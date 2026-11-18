@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Thông tin khách hàng - Nhà sách Sông Hương{% endblock %}
+{% block content %}
+<h2 class="mb-3">Thông tin khách hàng</h2>
+<form method="POST" action="{{ url_for('checkout') }}">{{ form.hidden_tag() }}<div class="row g-4 checkout-grid"><div class="col-lg-7"><div class="card p-3 p-md-4">
+ <div class="mb-3">{{ form.full_name.label(class="form-label") }} {{ form.full_name(class="form-control", placeholder="Nhập họ và tên") }}{% for error in form.full_name.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>
+ <div class="row"><div class="col-md-6 mb-3">{{ form.phone.label(class="form-label") }} {{ form.phone(class="form-control", placeholder="0912345678") }}{% for error in form.phone.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div><div class="col-md-6 mb-3">{{ form.email.label(class="form-label") }} {{ form.email(class="form-control", placeholder="example@gmail.com") }}{% for error in form.email.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div></div>
+ <div class="mb-3">{{ form.address.label(class="form-label") }} {{ form.address(class="form-control", rows="3", placeholder="Nhập địa chỉ giao hàng") }}{% for error in form.address.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>
+ <div class="mb-3">{{ form.note.label(class="form-label") }} {{ form.note(class="form-control", rows="2", placeholder="Ghi chú cho người giao hàng") }}</div>
+ <div class="mb-3"><label class="form-label">{{ form.payment_method.label.text }} *</label>{{ form.payment_method(class="form-select") }}{% for error in form.payment_method.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>
+ <div class="d-flex align-items-center gap-3 flex-wrap"><button type="submit" class="btn btn-primary px-4">Xác nhận đặt hàng</button><a href="{{ url_for('cart') }}" class="text-decoration-none">← Quay lại giỏ hàng</a></div>
+ </div></div><div class="col-lg-5"><aside class="checkout-summary"><h5 class="fw-bold mb-3">Đơn hàng của bạn</h5>{% for item in items %}<div class="summary-row"><span>{{ item.book.title }} × {{ item.quantity }}</span><strong>{{ item.line_total|vnd }}</strong></div>{% endfor %}<div class="summary-row mt-2"><span>Tạm tính</span><strong>{{ subtotal|vnd }}</strong></div><div class="summary-row"><span>Phí giao hàng</span><strong>{% if shipping_fee == 0 %}Miễn phí{% else %}{{ shipping_fee|vnd }}{% endif %}</strong></div><small class="text-muted d-block mt-2">Miễn phí khi tạm tính từ 200.000 đ</small><div class="d-flex justify-content-between align-items-center mt-3"><strong>Tổng thanh toán</strong><span class="summary-total">{{ total|vnd }}</span></div></aside></div></div></form>
+{% endblock %}
